@@ -3,6 +3,8 @@ A platform(frontend + backend + database) that supports bug management, bug labe
 
 Our introduction video has been posted on: https://www.bilibili.com/video/BV1HgmPYzEXq/?share_source=copy_web&vd_source=100cc88888805ad058a71617fcd25406
 
+(Logged in to bilibili is recommended for high-quality video)
+
 ## Directory Structure
 
 /platform-web: source of frontend
@@ -16,16 +18,22 @@ Our introduction video has been posted on: https://www.bilibili.com/video/BV1Hgm
 ## Environment & Run
 ### Platform
 
-JDK 11
+JDK **11**
 Maven
 
 You can build the *platform* directory by maven.
 
+
+
+Enter into /platform directory: 
+
 ```
 mvn clean install
+
+java -jar ./target/RegMiner-Backend-0.0.1-SNAPSHOT.jar 
 ```
 
-
+tip: You may build failure if you use other JDK versions.
 
 
 
