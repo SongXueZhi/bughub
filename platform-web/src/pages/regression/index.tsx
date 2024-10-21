@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, Input, message, Select, Skeleton, Tag, Tooltip } from 'antd';
+import { Button, Divider, Input, message, Select, Skeleton, Tag, Tooltip, Alert } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -29,6 +29,101 @@ const handleAdd = async (fields: API.RegressionItem) => {
     message.error('Failed to add. Please try again!');
     return false;
   }
+};
+
+const BatchUploadButton: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null); // 创建文件选择器的引用
+
+  const openFileDialog = () => {
+    if (inputRef.current) {
+      inputRef.current.click(); // 触发文件选择器
+    }
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0]; // 只处理第一个文件
+      const fileName = file.name;
+      const fileExtension = fileName.split('.').pop()?.toLowerCase();
+
+      if (fileExtension !== 'csv') {
+        message.error('File format error! Please upload a CSV file.');
+        return;
+      }
+
+      // 开始加载状态
+       //setLoading(true);
+
+      // 模拟3秒的解析过程
+       setTimeout(() => {
+         //setLoading(false); // 结束加载状态
+      message.success('Upload 55 bugs successfully! Wait for confirmation.');
+       }, 3000);
+    }
+  };
+
+  return (
+    <>
+      <Button type="primary" onClick={openFileDialog}>
+        <PlusOutlined /> batch upload
+      </Button>
+
+      {/* 隐藏的文件选择器 */}
+      <input
+        type="file"
+        multiple
+        ref={inputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileSelect}
+      />
+    </>
+  );
+};
+
+const BatchDownloadButton: React.FC = () => {
+  const handleBatchDownload = async () => {
+    try {
+      const fileUrl = '/bfcs.csv'; // 替换为你的文件路径
+
+      message.info('Preparing your download...'); // 提示用户文件准备中
+
+      // 等待 1 秒后启动下载
+      setTimeout(async () => {
+        const response = await fetch(fileUrl);
+        if (!response.ok) {
+          throw new Error('File not found');
+        }
+
+        const blob = await response.blob();
+        const downloadUrl = URL.createObjectURL(blob);
+
+        // 创建 <a> 标签用于下载
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = 'bugs_report.csv'; // 设置下载文件的名称
+        document.body.appendChild(link);
+        link.click(); // 触发下载
+        document.body.removeChild(link); // 移除 <a> 标签
+        URL.revokeObjectURL(downloadUrl); // 释放临时 URL
+
+        message.success('Download started!');
+      }, 1000); // 等待 1 秒钟 (1000 毫秒)
+    } catch (error) {
+      console.error('Download error:', error);
+      message.error('Failed to download the file. Please try again.');
+    }
+  };
+
+  return (
+    <Button
+      type="primary"
+      // icon={<DownloadOutlined />}
+      onClick={handleBatchDownload}
+    >
+      Batch Download
+    </Button>
+  );
 };
 
 /**
@@ -129,6 +224,9 @@ const RegressionListPage: React.FC<{}> = () => {
   const [regressionUuidList, setRegressionUuidList] = useState<string[]>([]);
   const [allBugTypes, setAllBugTypes] = useState<AllBugTypes[]>([]);
   const actionRef = useRef<ActionType>();
+
+
+
   const columns: ProColumns<API.RegressionItem>[] = [
     {
       title: 'Id',
@@ -397,18 +495,18 @@ const RegressionListPage: React.FC<{}> = () => {
       header={{
         style: { width: '100%' },
         title: 'Bug Repository',
-        // subTitle: (
-        //   <Alert
-        //     style={{ paddingLeft: '100px', paddingRight: '100px' }}
-        //     type="info"
-        //     message={
-        //       <div style={{ color: 'red', fontSize: '20px', fontWeight: 'bold' }}>
-        //         Note! Due to cloud server limitations, only the first 50 bugs on the list are
-        //         available.
-        //       </div>
-        //     }
-        //   />
-        // ),
+        subTitle: (
+          <Alert
+            style={{ paddingLeft: '100px', paddingRight: '100px' }}
+            type="info"
+            message={
+              <div style={{ color: 'red', fontSize: '20px', fontWeight: 'bold' }}>
+                Note! Due to cloud server limitations, only the first 50 bugs on the list are
+                available.
+              </div>
+            }
+          />
+        ),
       }}
     >
       {/* <div className="RegMiner-tutorial-video" style={{ marginBottom: '20px' }}>
@@ -449,6 +547,13 @@ const RegressionListPage: React.FC<{}> = () => {
           >
             <PlusOutlined /> add
           </Button>,
+
+<BatchUploadButton />,
+
+<BatchDownloadButton/>,
+
+
+
         ]}
         // @ts-ignore
         request={queryList}

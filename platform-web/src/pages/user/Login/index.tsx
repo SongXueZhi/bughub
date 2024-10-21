@@ -74,10 +74,10 @@ const Login: React.FC = () => {
           <div className={styles.header}>
             <Link to="/">
               <Image alt="logo" src="/favicon.ico" className={styles.logo}/>
-              <span className={styles.title}>BugShareHub</span>
+              <span className={styles.title}>BugHub</span>
             </Link>
           </div>
-          <div className={styles.desc}>BugShareHub 数据标注平台</div>
+          <div className={styles.desc}>BugHub 数据标注平台</div>
         </div>
         <div className={styles.main}>
           <ProForm

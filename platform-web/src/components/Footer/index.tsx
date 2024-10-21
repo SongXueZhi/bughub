@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
       links={[
         {
           key: 'left',
-          title: 'BugShareHub',
+          title: 'BugHub',
           href: 'https://sites.google.com/d/1czj_Xo96OgTOoH0EffWvzte03TJtiv5K/p/1t7VGB1k5rRObf-3O1SgApJXShFMcGJT3/edit',
           blankTarget: true,
         },

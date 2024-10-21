@@ -73,6 +73,10 @@
     redirect: '/regression',
   },
   {
+    path: '/bughub',
+    redirect: '/regression',
+  },
+  {
     component: './404',
   },
 ];
