@@ -1,7 +1,7 @@
 # BugHub
 A platform(frontend + backend + database) that supports bug management, bug labeling, real-time debugging .etc.
 
-Our introduction video has been posted on: https://www.bilibili.com/video/BV1HgmPYzEXq/?share_source=copy_web&vd_source=100cc88888805ad058a71617fcd25406
+[![Video Thumbnail](https://github.com/SongXueZhi/bughub/blob/main/platform-web/pn.jpg)](https://www.bilibili.com/video/BV1HgmPYzEXq)
 
 (Logged in to bilibili is recommended for high-quality video)
 
