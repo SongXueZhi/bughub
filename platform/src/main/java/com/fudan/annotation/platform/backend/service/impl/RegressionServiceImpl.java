@@ -54,6 +54,10 @@ public class RegressionServiceImpl implements RegressionService {
     public List<Regression> getRegressions(Integer id, String regressionUuid, Integer regressionStatus, String projectName,
                                            String bfc, String buggy, String bic, String work,
                                            String keyWord, List<String> bugTypeName) {
+        if(projectName!= null && projectName.contains("/")){
+            projectName = projectName.split("/")[1];
+        }
+        if (id!=null && id == -1) id =null;
         List<Regression> regressionList = regressionMapper.selectRegression(id, regressionUuid, regressionStatus,
                 projectName, bfc, buggy, bic, work, keyWord);
         List<BugToTypeItems> bugToTypeItemsList = bugToTypeMapper.getBugToTypeByRegressionUuid(null);
